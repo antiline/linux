@@ -127,6 +127,10 @@ int eth_header(struct sk_buff *skb, struct net_device *dev,
 
 	return -ETH_HLEN;
 }
+/* [antiline][commnet] EXPORT_SYMBOL ?
+ * 리눅스 커널에서는 외부에 공개할 함수는 EXPORT_SYMBOL 이라는 매크로를 사용하여 지정해 주어야 합니다. 
+ * 참고로 static 함수는 EXPORT_SYMBOL 매크로를 사용해도 외부에서 접근할 수  없습니다. 왜냐면 static 이기 때문입니다. 
+ */
 EXPORT_SYMBOL(eth_header);
 
 /**
