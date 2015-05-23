@@ -60,6 +60,23 @@
 #include <net/dsa.h>
 #include <linux/uaccess.h>
 
+/* [antiline][comment] __setup ? 
+ * [https://kldp.org/node/2406]
+ * kernel parameter 를 받아들여 command_line[] 배열을 채워주는 매크로 랍니다..
+ * __setup("root=",root_dev_setup); 이 설정되어 있고
+ * 커널 인수(kernel parameter)에 root=/dev/ramdisk 가 들어가 있다면
+ * static int __init root_dev_setup(char *line) 함수가 호출,
+ * line에 /dev/ramdisk 가 들어가게 되는 구조 입니다..
+ * 그냥 커널 파라메터 처리 매크로 라고 해도 좋겟네여..
+ 
+ * http://egloos.zum.com/furmuwon/v/10646725
+ * 결국 문자열을 만든 뒤 문자열에 대응하는 함수를 등록 하는 것이다.
+ * 어떤 특정한 함수에서(파싱하는 함수겠지..) 부분에서 문자열 init= 를 발견하면 init_setup 함수를 수행 할터이지...
+ * 내가 찾아 보게 된 이유가 cmd line 에서 console= 이 부분 때문에 찾아 보았는데...
+ * 이놈은 ../kernel/printk.c 에 있다.
+ * __setup("console=", console_setup);
+ * cmdline 에서 console= 를 만나면 consle_setup 함수를 수행 할 것이다..
+ */
 __setup("ether=", netdev_boot_setup);
 
 /**
